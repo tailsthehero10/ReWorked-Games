@@ -115,7 +115,7 @@ async function loadAccount() {
   try {
     const data = await (await fetch('/api/account')).json();
     if (data.connected) { state.textContent = `Connected as ${data.profile.displayName || data.profile.name}.`; connect.hidden = true; logout.hidden = false; }
-    else if (!data.oauthEnabled) { state.textContent = 'Account connection is being set up by the community owner.'; connect.classList.add('disabled'); connect.removeAttribute('href'); connect.setAttribute('aria-disabled', 'true'); }
+    else if (!data.oauthEnabled) { state.textContent = 'Roblox account connection is not configured for this deployment.'; connect.classList.add('disabled'); connect.removeAttribute('href'); connect.setAttribute('aria-disabled', 'true'); }
     else if (new URLSearchParams(window.location.search).get('error')) state.textContent = 'Roblox could not complete the connection. Please try again.';
     else state.textContent = 'Connect your Roblox account securely through Roblox.';
   } catch { state.textContent = 'Account connection is temporarily unavailable.'; }

@@ -33,6 +33,8 @@ In Render, open the web service → **Environment** and add:
 
 Save changes and choose **Manual Deploy → Deploy latest commit**. Visit `/account`; the disabled connection button becomes active.
 
+Render does not read this repository's ignored `.env` file. If `/api/account` still returns `"oauthEnabled":false`, add the four variables above in the Render service's **Environment** page, save them, and redeploy.
+
 ## Roles and privacy
 
 `/roles` already looks up a public role by Roblox username through Roblox's public group endpoint. Roblox communities can now assign multiple roles, but that public endpoint exposes only the role Roblox makes public. Do not claim it is the complete role set.
