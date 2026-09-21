@@ -5,8 +5,8 @@
   "description": "Live community hub for the ReWorked-Games Roblox community.",
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node --watch server.js"
+    "start": "node --env-file-if-exists=.env server.js",
+    "dev": "node --env-file-if-exists=.env --watch server.js"
   },
   "engines": {
     "node": ">=20.0.0"

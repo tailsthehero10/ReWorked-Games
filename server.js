@@ -141,6 +141,21 @@ app.get('/api/member', async (request, response) => {
   }
 });
 
+app.get('/api/games/:gameId', async (request, response) => {
+  const gameId = Number(request.params.gameId);
+  if (!Number.isSafeInteger(gameId)) return response.status(400).json({ error: 'Invalid game ID.' });
+  try {
+    const community = await getCommunity();
+    const game = community.games.find((entry) => entry.id === gameId);
+    if (!game) return response.status(404).json({ error: 'This game is not part of ReWorked-Games.' });
+    response.set('Cache-Control', 'public, max-age=60, s-maxage=240');
+    response.json({ game, group: { id: community.group.id, name: community.group.name, url: community.group.url }, fetchedAt: community.fetchedAt });
+  } catch (error) {
+    console.error('Could not fetch game data:', error.message);
+    response.status(502).json({ error: 'Live Roblox game data is temporarily unavailable. Please try again.' });
+  }
+});
+
 app.get('/auth/roblox', (request, response) => {
   const config = oauthConfiguration();
   if (!config) return response.redirect('/account?error=not_configured');
