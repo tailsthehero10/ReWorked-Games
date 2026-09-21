@@ -1,7 +1,7 @@
 const number = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 });
 const fullNumber = new Intl.NumberFormat('en-US');
 const $ = (selector) => document.querySelector(selector);
-const pageByPath = { '/': 'about', '/games': 'games', '/experiences': 'games', '/roles': 'roles', '/account': 'account' };
+const pageByPath = { '/': 'about', '/games': 'games', '/experiences': 'games', '/roles': 'roles', '/account': 'account', '/ToS': 'tos', '/PrivacyPolicy': 'privacy' };
 const activePage = pageByPath[window.location.pathname.replace(/\/$/, '') || '/'] || 'about';
 
 function setText(selector, value) { $(selector).textContent = value; }
@@ -12,7 +12,7 @@ function configurePage() {
   document.querySelectorAll('[data-view]').forEach((element) => {
     element.hidden = !element.dataset.view.split(' ').includes(activePage);
   });
-  const labels = { about: 'ReWorked-Games - Roblox', games: 'Games - ReWorked-Games', roles: 'Roles - ReWorked-Games', account: 'Account - ReWorked-Games' };
+  const labels = { about: 'ReWorked-Games - Roblox', games: 'Games - ReWorked-Games', roles: 'Roles - ReWorked-Games', account: 'Account - ReWorked-Games', tos: 'Terms of Service - ReWorked-Games', privacy: 'Privacy Policy - ReWorked-Games' };
   document.title = labels[activePage];
 }
 
