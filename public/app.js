@@ -10,7 +10,10 @@ function render(data) {
   document.title = `${group.name} — Roblox Community`;
   setText('#group-name', group.name);
   setText('#member-count', fullNumber.format(group.memberCount));
+  setText('#member-count-side', fullNumber.format(group.memberCount));
   setText('#owner-name', group.owner?.displayName || group.owner?.username || '—');
+  $('#owner-name').href = group.owner?.userId ? `https://www.roblox.com/users/${group.owner.userId}/profile` : '#';
+  $('#side-name').textContent = group.name;
   setText('#game-count', fullNumber.format(games.length));
   setText('#total-visits', number.format(games.reduce((sum, game) => sum + game.visits, 0)));
   setText('#total-playing', number.format(games.reduce((sum, game) => sum + game.playing, 0)));
@@ -19,7 +22,11 @@ function render(data) {
   $('#last-updated').textContent = `Updated ${new Intl.DateTimeFormat('en', { hour: 'numeric', minute: '2-digit' }).format(new Date(data.fetchedAt))}`;
   document.querySelectorAll('[data-group-link]').forEach((link) => { link.href = group.url; });
   const icon = $('#group-icon');
-  if (group.icon) { icon.src = group.icon; icon.hidden = false; } else { icon.hidden = true; }
+  if (group.icon) {
+    icon.src = group.icon;
+    icon.hidden = false;
+    $('#side-icon').src = group.icon;
+  } else { icon.hidden = true; }
 
   const grid = $('#games-grid');
   const template = $('#game-template');
@@ -34,7 +41,10 @@ function render(data) {
     node.querySelector('h3').textContent = game.name;
     node.querySelector('.game-info p').textContent = cleanDescription(game.description);
     node.querySelector('.game-playing').textContent = game.playing ? `${fullNumber.format(game.playing)} playing` : 'Experience';
-    const link = node.querySelector('a'); link.href = game.url; link.setAttribute('aria-label', `Play ${game.name} on Roblox`);
+    node.querySelectorAll('a').forEach((link) => {
+      link.href = game.url;
+      link.setAttribute('aria-label', `Play ${game.name} on Roblox`);
+    });
     grid.append(node);
   });
   $('#no-games').hidden = games.length !== 0;

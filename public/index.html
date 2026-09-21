@@ -3,61 +3,47 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#080d19" />
-    <meta name="description" content="The live community hub for ReWorked-Games on Roblox." />
-    <title>ReWorked Games — Roblox Community</title>
+    <meta name="theme-color" content="#191b1f" />
+    <meta name="description" content="ReWorked-Games community on Roblox." />
+    <title>ReWorked-Games - Roblox</title>
     <link rel="preconnect" href="https://tr.rbxcdn.com" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <div class="noise" aria-hidden="true"></div>
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="ReWorked Games home"><span class="brand-mark">R</span><span>REWORKED<span class="muted">GAMES</span></span></a>
-      <nav aria-label="Main navigation"><a href="#games">Games</a><a href="#community">Community</a></nav>
-      <a class="header-join" data-group-link href="https://www.roblox.com/communities/223811537/ReWorked-Games" target="_blank" rel="noreferrer">Join on Roblox <span>↗</span></a>
+    <header class="topbar">
+      <a href="#top" class="roblox-wordmark" aria-label="Roblox home"><i></i><span>ROBLOX</span></a>
+      <nav class="top-links" aria-label="Roblox navigation"><a href="https://www.roblox.com/discover" target="_blank" rel="noreferrer">Discover</a><a href="https://www.roblox.com/catalog" target="_blank" rel="noreferrer">Marketplace</a><a href="https://create.roblox.com/" target="_blank" rel="noreferrer">Create</a><a href="https://www.roblox.com/upgrades/robux" target="_blank" rel="noreferrer">Robux</a></nav>
+      <div class="top-actions"><label class="search"><span>⌕</span><input type="search" placeholder="Search" aria-label="Search Roblox" /></label><a class="login" href="https://www.roblox.com/login" target="_blank" rel="noreferrer">Log In</a></div>
     </header>
-
-    <main id="top">
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-glow"></div>
-        <div class="hero-copy">
-          <p class="eyebrow"><span></span> OFFICIAL COMMUNITY HUB</p>
-          <h1 id="hero-title">Built again.<br /><em>Made to play.</em></h1>
-          <p class="lede">A home for remakes, roleplay, and the people who keep the ReWorked-Games community moving forward.</p>
-          <div class="actions">
-            <a class="button primary" data-group-link href="https://www.roblox.com/communities/223811537/ReWorked-Games" target="_blank" rel="noreferrer">Join the community <span>↗</span></a>
-            <a class="button ghost" href="#games">Explore games <span>↓</span></a>
+    <div class="app-shell" id="top">
+      <aside class="sidebar">
+        <a class="side-item" href="https://www.roblox.com/home" target="_blank" rel="noreferrer"><span>⌂</span> Home</a>
+        <a class="side-item" href="https://www.roblox.com/charts" target="_blank" rel="noreferrer"><span>◒</span> Charts</a>
+        <a class="side-item" href="https://www.roblox.com/communities" target="_blank" rel="noreferrer"><span>♚</span> Communities</a>
+        <div class="sidebar-divider"></div><p class="sidebar-label">COMMUNITIES</p>
+        <a class="community-mini active" data-group-link href="https://www.roblox.com/communities/223811537/ReWorked-Games" target="_blank" rel="noreferrer"><img id="side-icon" alt="" /><span id="side-name">ReWorked-Games</span></a>
+      </aside>
+      <main class="content">
+        <section class="community-header" aria-labelledby="group-name">
+          <img id="group-icon" class="group-icon" alt="ReWorked-Games community icon" />
+          <div class="group-title"><h1 id="group-name">ReWorked-Games</h1><p><span id="member-count">—</span> Members</p></div>
+          <a class="join-button" data-group-link href="https://www.roblox.com/communities/223811537/ReWorked-Games" target="_blank" rel="noreferrer">Join Community</a><button class="more-button" type="button" aria-label="More options">•••</button>
+        </section>
+        <nav class="tabs" aria-label="Community sections"><a class="active" href="#about">About</a><a href="#experiences">Experiences</a><a data-group-link href="https://www.roblox.com/communities/223811537/ReWorked-Games#!/about" target="_blank" rel="noreferrer">Forums</a><a data-group-link href="https://www.roblox.com/communities/223811537/ReWorked-Games#!/about" target="_blank" rel="noreferrer">Events</a></nav>
+        <div class="page-grid">
+          <div class="primary-column">
+            <section class="panel about-panel" id="about"><h2>About</h2><p id="description">Loading community details…</p><div class="about-meta"><span>Owner</span><a id="owner-name" href="#">Loading…</a></div></section>
+            <section class="panel experiences-panel" id="experiences" aria-labelledby="experiences-title"><div class="panel-heading"><h2 id="experiences-title">Experiences</h2><button id="refresh" class="refresh" type="button">Refresh</button></div><div id="games-grid" class="games-grid" aria-live="polite"><div class="loading">Loading experiences</div></div><p id="no-games" class="empty" hidden>No public experiences are available in this community.</p></section>
           </div>
+          <aside class="right-column">
+            <section class="panel stats-panel"><h2>Community</h2><div class="stat"><span>Members</span><strong id="member-count-side">—</strong></div><div class="stat"><span>Experiences</span><strong id="game-count">—</strong></div><div class="stat"><span>Total visits</span><strong id="total-visits">—</strong></div><div class="stat"><span>Playing now</span><strong id="total-playing">—</strong></div></section>
+            <section class="panel roles-panel"><div class="panel-heading"><h2>Roles</h2><span id="role-count" class="subtle-count">—</span></div><div id="roles" class="roles"><div class="role-skeleton"></div><div class="role-skeleton"></div></div></section>
+          </aside>
         </div>
-        <aside class="community-card" id="community" aria-label="Community status">
-          <div class="card-top"><span class="status-dot"></span> LIVE ROBLOX DATA</div>
-          <div class="community-identity"><img id="group-icon" alt="ReWorked-Games logo" /><div><p>COMMUNITY</p><h2 id="group-name">ReWorked-Games</h2></div></div>
-          <div class="member-number" id="member-count">—</div><p class="member-label">COMMUNITY MEMBERS</p>
-          <div class="card-rule"></div>
-          <div class="owner"><span>FOUNDED BY</span><strong id="owner-name">Loading…</strong></div>
-        </aside>
-      </section>
-
-      <section class="metrics" aria-label="Community statistics">
-        <div><p>FEATURED EXPERIENCES</p><strong id="game-count">—</strong></div>
-        <div><p>ALL-TIME VISITS</p><strong id="total-visits">—</strong></div>
-        <div><p>PLAYING NOW</p><strong id="total-playing">—</strong></div>
-        <div><p>ACTIVE ROLES</p><strong id="role-count">—</strong></div>
-      </section>
-
-      <section class="games-section" id="games" aria-labelledby="games-title">
-        <div class="section-heading"><div><p class="eyebrow"><span></span> PLAY OUR EXPERIENCES</p><h2 id="games-title">The current <em>lineup.</em></h2></div><button id="refresh" class="refresh" type="button">Refresh <span>↻</span></button></div>
-        <div id="games-grid" class="games-grid" aria-live="polite"><div class="loading">Fetching live experiences<span></span><span></span><span></span></div></div>
-        <p id="no-games" class="empty" hidden>No public experiences are listed for the community yet.</p>
-      </section>
-
-      <section class="details">
-        <article class="about-panel"><p class="eyebrow"><span></span> ABOUT THE GROUP</p><h2>Rebuilding the<br /><em>experience.</em></h2><p id="description">Loading the group description…</p><a class="text-link" data-group-link href="https://www.roblox.com/communities/223811537/ReWorked-Games" target="_blank" rel="noreferrer">View community on Roblox <span>↗</span></a></article>
-        <article class="roles-panel"><p class="eyebrow"><span></span> COMMUNITY ROLES</p><div id="roles" class="roles"><div class="role-skeleton"></div><div class="role-skeleton"></div><div class="role-skeleton"></div></div></article>
-      </section>
-    </main>
-    <footer><a class="brand" href="#top"><span class="brand-mark">R</span><span>REWORKED<span class="muted">GAMES</span></span></a><p>Fan-made community hub · Data updates directly from Roblox</p><p id="last-updated">Connecting to Roblox…</p></footer>
-    <template id="game-template"><article class="game-card"><div class="game-image"><img loading="lazy" alt="" /><div class="game-visit"><span>◉</span> <b></b></div></div><div class="game-info"><h3></h3><p></p><div class="game-bottom"><span class="game-playing"></span><a target="_blank" rel="noreferrer">Play <span>↗</span></a></div></div></article></template>
+      </main>
+    </div>
+    <footer><span>©2026 Roblox Corporation. Roblox, the Roblox logo and ReWorked-Games are trademarks of their respective owners.</span><span id="last-updated">Loading…</span></footer>
+    <template id="game-template"><article class="game-card"><a class="game-thumbnail" target="_blank" rel="noreferrer"><img loading="lazy" alt="" /></a><div class="game-info"><h3></h3><p></p><div class="game-bottom"><span class="game-playing"></span><a target="_blank" rel="noreferrer">Play</a></div></div><div class="game-visit"><span>◉</span> <b></b></div></article></template>
     <script src="/app.js"></script>
   </body>
 </html>
