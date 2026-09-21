@@ -1,11 +1,16 @@
 const compactNumber = new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 });
 const fullNumber = new Intl.NumberFormat('en-US');
 const $ = (selector) => document.querySelector(selector);
+<<<<<<< HEAD
 const path = window.location.pathname.replace(/\/$/, '') || '/';
 const gameRoute = path.match(/^\/game\/(\d+)\/[^/]+$/);
 const pageByPath = { '/': 'about', '/games': 'games', '/experiences': 'games', '/roles': 'roles', '/account': 'account', '/ToS': 'tos', '/PrivacyPolicy': 'privacy' };
 const activePage = gameRoute ? 'game' : (pageByPath[path] || 'about');
 const titles = { about: 'ReWorked-Games - Roblox', games: 'Games - ReWorked-Games', roles: 'Roles - ReWorked-Games', account: 'Account - ReWorked-Games', tos: 'Terms of Service - ReWorked-Games', privacy: 'Privacy Policy - ReWorked-Games', game: 'Game - ReWorked-Games' };
+=======
+const pageByPath = { '/': 'about', '/games': 'games', '/experiences': 'games', '/roles': 'roles', '/account': 'account', '/ToS': 'tos', '/PrivacyPolicy': 'privacy' };
+const activePage = pageByPath[window.location.pathname.replace(/\/$/, '') || '/'] || 'about';
+>>>>>>> 05d67a57d8ee5eb98ddd929ba0b089cf73433800
 
 function text(selector, value) { const element = $(selector); if (element) element.textContent = value; }
 function description(value) { return (value || 'No description available.').replace(/[_]{5,}/g, '').replace(/\n{3,}/g, '\n\n').trim(); }
@@ -34,6 +39,7 @@ function renderGames(games) {
     const play = node.querySelector('.game-play-link'); play.href = game.url; play.setAttribute('aria-label', `Play ${game.name} on Roblox`);
     grid.append(node);
   });
+<<<<<<< HEAD
   const empty = $('#no-games'); if (empty) empty.hidden = games.length !== 0;
 }
 
@@ -64,6 +70,10 @@ function renderGameDetail(game) {
   text('#game-detail-updated', game.updated ? new Intl.DateTimeFormat('en', { month: 'short', day: 'numeric', year: 'numeric' }).format(new Date(game.updated)) : '—');
   const play = $('#game-detail-play'); if (play) play.href = game.url;
   document.title = `${game.name} - ReWorked-Games`;
+=======
+  const labels = { about: 'ReWorked-Games - Roblox', games: 'Games - ReWorked-Games', roles: 'Roles - ReWorked-Games', account: 'Account - ReWorked-Games', tos: 'Terms of Service - ReWorked-Games', privacy: 'Privacy Policy - ReWorked-Games' };
+  document.title = labels[activePage];
+>>>>>>> 05d67a57d8ee5eb98ddd929ba0b089cf73433800
 }
 
 function render(data) {
