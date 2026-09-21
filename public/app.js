@@ -85,7 +85,20 @@ function render(data) {
   text('#total-visits', compactNumber.format(games.reduce((sum, game) => sum + game.visits, 0))); text('#total-playing', compactNumber.format(games.reduce((sum, game) => sum + game.playing, 0))); text('#role-count', fullNumber.format(roles.length));
   text('#description', description(group.description)); text('#last-updated', `Updated ${new Intl.DateTimeFormat('en', { hour: 'numeric', minute: '2-digit' }).format(new Date(data.fetchedAt))}`);
   document.querySelectorAll('[data-group-link]').forEach((link) => { link.href = group.url; });
-  ['#group-icon', '#side-icon'].forEach((selector) => { const icon = $(selector); if (icon) { icon.src = group.icon || ''; icon.hidden = !group.icon; } });
+  ['#group-icon', '#side-icon'].forEach((selector) => {
+    const icon = $(selector);
+    if (!icon) return;
+    icon.onerror = () => { icon.hidden = true; icon.parentElement?.classList.add('image-unavailable'); };
+    icon.src = group.icon || '';
+    icon.hidden = !group.icon;
+  });
+  const cover = $('#group-cover');
+  const coverContainer = $('#community-cover');
+  if (cover && coverContainer) {
+    cover.onerror = () => { coverContainer.hidden = true; };
+    cover.src = group.cover || '';
+    coverContainer.hidden = !group.cover;
+  }
   renderGames(games); renderRoles(roles); renderGameDetail(games.find((game) => game.id === Number(gameRoute?.[1])));
 }
 

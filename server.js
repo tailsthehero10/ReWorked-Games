@@ -43,14 +43,37 @@ function pruneAuthData() {
   for (const [key, value] of sessions) if (value.createdAt < cutoff) sessions.delete(key);
 }
 
+async function getGroupCover() {
+  try {
+    const profile = await roblox('https://apis.roblox.com/profile-platform-api/v1/profiles/get?urlLocale=en_us', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        profileId: groupId,
+        profileType: 'Community',
+        components: [{ component: 'CoverPhoto' }],
+        includeComponentOrdering: false
+      })
+    });
+    const coverPhotoId = profile.components?.CoverPhoto?.coverPhotoId;
+    if (!coverPhotoId) return null;
+    const thumbnail = await roblox(`https://thumbnails.roblox.com/v1/assets?assetIds=${coverPhotoId}&returnPolicy=PlaceHolder&size=768x432&format=Png&isCircular=false`);
+    return thumbnail.data?.[0]?.state === 'Completed' ? thumbnail.data[0].imageUrl : null;
+  } catch (error) {
+    console.warn('Could not fetch group cover:', error.message);
+    return null;
+  }
+}
+
 async function getCommunity() {
   if (cache.value && Date.now() < cache.expiresAt) return { ...cache.value, cached: true };
 
-  const [group, rolesPayload, gamesPayload, groupIcons] = await Promise.all([
+  const [group, rolesPayload, gamesPayload, groupIcons, cover] = await Promise.all([
     roblox(`https://groups.roblox.com/v1/groups/${groupId}`),
     roblox(`https://groups.roblox.com/v1/groups/${groupId}/roles`),
     roblox(`https://games.roblox.com/v2/groups/${groupId}/games?accessFilter=Public&limit=50&sortOrder=Desc`),
-    roblox(`https://thumbnails.roblox.com/v1/groups/icons?groupIds=${groupId}&size=420x420&format=Png&isCircular=false`)
+    roblox(`https://thumbnails.roblox.com/v1/groups/icons?groupIds=${groupId}&size=420x420&format=Png&isCircular=false`),
+    getGroupCover()
   ]);
 
   const rawGames = gamesPayload.data || [];
@@ -89,6 +112,7 @@ async function getCommunity() {
       shout: group.shout,
       publicEntryAllowed: group.publicEntryAllowed,
       icon: groupIcons.data?.[0]?.imageUrl || null,
+      cover,
       url: `${ROBLOX}/communities/${groupId}/ReWorked-Games`
     },
     roles: (rolesPayload.roles || []).filter((role) => role.memberCount > 0),
