@@ -31,7 +31,15 @@ In Render, open the web service → **Environment** and add:
 | `ROBLOX_REDIRECT_URI` | `https://reworked-games.onrender.com/auth/roblox/callback` |
 | `NODE_ENV` | `production` |
 
-The callback URL is valid for Roblox OAuth. In Creator Dashboard, paste it under **Redirect URLs**, press **Enter** or click **Add** so it appears as a saved URL, then click **Save Changes**. Do not put it in **Entry Link**, **Privacy Terms URL**, or **Terms of Service URL**. The saved value must match exactly, with no trailing slash. If Roblox still rejects the shared `onrender.com` host, use a custom HTTPS domain for the site and register that domain instead.
+Use these exact dashboard fields for the ReWorked-Games group (`223811537`):
+
+- **Entry Link:** `https://reworked-games.onrender.com/`
+- **Redirect URLs:** `https://reworked-games.onrender.com/auth/roblox/callback`
+- **Privacy Terms URL:** `https://reworked-games.onrender.com/PrivacyPolicy`
+- **Terms of Service URL:** `https://reworked-games.onrender.com/ToS`
+- **Group/community reference:** `https://www.roblox.com/communities/223811537/ReWorked-Games`
+
+Paste the callback only under **Redirect URLs**, press **Enter** or click **Add** until it appears as a saved URL, then click **Save Changes**. Do not put the callback in Entry Link, Privacy Terms URL, or Terms of Service URL. The saved redirect value must match exactly, with no trailing slash. If Roblox still rejects the shared `onrender.com` host, use a custom HTTPS domain for the site and register that domain instead.
 
 Save changes and choose **Manual Deploy → Deploy latest commit**. Visit `/account`; the disabled connection button becomes active.
 
