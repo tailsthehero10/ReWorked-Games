@@ -24,7 +24,7 @@ function renderGames(games) {
   games.forEach((game) => {
     const node = template.content.cloneNode(true);
     const image = node.querySelector('img');
-    image.src = game.icon || ''; image.alt = `${game.name} game icon`;
+    image.src = game.thumbnail || game.icon || ''; image.alt = `${game.name} game thumbnail`;
     image.onerror = () => image.closest('.game-thumbnail').classList.add('image-fallback');
     node.querySelector('.game-visit b').textContent = `${compactNumber.format(game.visits)} visits`;
     node.querySelector('h3').textContent = game.name;
@@ -86,6 +86,7 @@ function render(data) {
   const coverContainer = $('#community-cover');
   if (cover && coverContainer) {
     cover.onerror = () => { coverContainer.hidden = true; };
+    cover.alt = `${group.name} community banner`;
     cover.src = group.cover || '';
     coverContainer.hidden = !group.cover;
   }

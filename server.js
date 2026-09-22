@@ -153,13 +153,15 @@ async function getCommunity() {
 
   const rawGames = gamesPayload.data || [];
   const universeIds = rawGames.map((game) => game.id).join(',');
-  const [gameDetails, gameIcons] = universeIds ? await Promise.all([
+  const [gameDetails, gameIcons, gameThumbnails] = universeIds ? await Promise.all([
     roblox(`https://games.roblox.com/v1/games?universeIds=${universeIds}`),
-    roblox(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeIds}&size=512x512&format=Png&isCircular=false`)
-  ]) : [{ data: [] }, { data: [] }];
+    roblox(`https://thumbnails.roblox.com/v1/games/icons?universeIds=${universeIds}&size=512x512&format=Png&isCircular=false`),
+    roblox(`https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${universeIds}&size=768x432&format=Png&isCircular=false`)
+  ]) : [{ data: [] }, { data: [] }, { data: [] }];
 
   const detailsById = new Map((gameDetails.data || []).map((game) => [game.id, game]));
   const iconsById = new Map((gameIcons.data || []).map((icon) => [icon.targetId, icon.imageUrl]));
+  const thumbnailsById = new Map((gameThumbnails.data || []).filter((game) => game.thumbnails?.[0]?.state === 'Completed').map((game) => [game.universeId, game.thumbnails[0].imageUrl]));
   const games = rawGames.map((game) => {
     const details = detailsById.get(game.id) || {};
     return {
@@ -173,6 +175,7 @@ async function getCommunity() {
       created: game.created,
       updated: game.updated,
       icon: iconsById.get(game.id) || null,
+      thumbnail: thumbnailsById.get(game.id) || null,
       url: game.rootPlace?.id ? `${ROBLOX}/games/${game.rootPlace.id}` : `${ROBLOX}/games/${game.id}`
     };
   });
