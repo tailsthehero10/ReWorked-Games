@@ -117,7 +117,10 @@ async function loadAccount() {
     const data = await (await fetch('/api/account')).json();
     if (data.connected) { state.textContent = `Connected as ${data.profile.displayName || data.profile.name}.`; connect.hidden = true; logout.hidden = false; }
     else if (!data.oauthEnabled) { state.textContent = 'Roblox account connection is not configured for this deployment.'; connect.classList.add('disabled'); connect.removeAttribute('href'); connect.setAttribute('aria-disabled', 'true'); }
-    else if (new URLSearchParams(window.location.search).get('error')) state.textContent = 'Roblox could not complete the connection. Please try again.';
+    else if (new URLSearchParams(window.location.search).get('error')) {
+      const params = new URLSearchParams(window.location.search); const oauthError = params.get('oauth_error');
+      state.textContent = oauthError === 'token_exchange_failed' ? 'Roblox rejected the login code. Try signing in again.' : oauthError === 'identity_verification_failed' ? 'Roblox returned the login data, but verification failed. Try again.' : params.get('oauth_error_description') || 'Roblox could not complete the connection. Please try again.';
+    }
     else state.textContent = 'Connect your Roblox account securely through Roblox.';
   } catch { state.textContent = 'Account connection is temporarily unavailable.'; }
   logout.addEventListener('click', async () => { await fetch('/auth/logout', { method: 'POST' }); window.location.assign('/account'); }, { once: true });

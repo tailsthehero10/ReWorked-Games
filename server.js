@@ -275,12 +275,17 @@ app.get('/auth/roblox/callback', async (request, response) => {
   const config = oauthConfiguration();
   const pending = readOauthState(request, config);
   clearBrowserCookie(response, OAUTH_STATE_COOKIE);
-  if (!config || !pending || !request.query.code) return response.redirect('/account?error=authorization_failed');
+  if (!config || !pending || !request.query.code) {
+    const callbackError = new URLSearchParams({ error: 'authorization_failed' });
+    if (request.query.error) callbackError.set('oauth_error', String(request.query.error));
+    if (request.query.error_description) callbackError.set('oauth_error_description', String(request.query.error_description).slice(0, 240));
+    return response.redirect(`/account?${callbackError.toString()}`);
+  }
   try {
     const tokenResponse = await fetch('https://apis.roblox.com/oauth/v1/token', {
       method: 'POST',
-      headers: { Authorization: `Basic ${Buffer.from(`${config.clientId}:${config.clientSecret}`).toString('base64')}`, 'Content-Type': 'application/x-www-form-urlencoded' },
-      body: new URLSearchParams({ grant_type: 'authorization_code', code: String(request.query.code), redirect_uri: config.redirectUri, code_verifier: pending.codeVerifier }),
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ client_id: config.clientId, client_secret: config.clientSecret, grant_type: 'authorization_code', code: String(request.query.code), redirect_uri: config.redirectUri, code_verifier: pending.codeVerifier }),
       signal: AbortSignal.timeout(9000)
     });
     const tokenPayload = await tokenResponse.json().catch(() => null);
@@ -295,7 +300,8 @@ app.get('/auth/roblox/callback', async (request, response) => {
     response.redirect('/account?connected=1');
   } catch (error) {
     console.error('Roblox OAuth callback failed:', error.message);
-    response.redirect('/account?error=authorization_failed');
+    const oauthError = error.message.startsWith('Token exchange') ? 'token_exchange_failed' : 'identity_verification_failed';
+    response.redirect(`/account?error=authorization_failed&oauth_error=${oauthError}`);
   }
 });
 
